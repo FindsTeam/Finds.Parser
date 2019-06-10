@@ -42,8 +42,8 @@ const extractLinks = async (page, selector) => {
 module.exports.parseEventsLinks = async () => {
   const browser = await puppeteer.launch({
     args : [
-      '--no-sandbox',
-      '--disable-setuid-sandbox'
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
     ],
     headless: true,
     timeout: 60000
