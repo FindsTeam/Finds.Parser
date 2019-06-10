@@ -1,4 +1,6 @@
 const puppeteer = require("puppeteer");
+const logger = require("../logger");
+const messages = require("../messages");
 
 const EVENTS_URL = `https://www.facebook.com/events/discovery/?suggestion_token={"city":"107677462599905","time":"tomorrow","timezone":"Europe/Minsk"}`;
 const EVENT_LINK_SELECTOR = "div.clearfix > div > div > div > div > div > a";
@@ -56,9 +58,11 @@ module.exports.parseEventsLinks = async () => {
     height: 500
   });
   await page.waitForSelector(EVENT_LINK_SELECTOR);
+  logger.info(messages.facebook.start);
   await autoScrollToBottom(page);
   
   const links = await extractLinks(page, EVENT_LINK_SELECTOR);
+  logger.info(messages.facebook.finish(links.length));
 
   browser.close();
   
