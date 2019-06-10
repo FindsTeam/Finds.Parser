@@ -20,6 +20,7 @@
   "dependencies": {
     "dotenv": "8.0.0",
     "mongoose": "5.5.13",
-    "nodemon": "1.19.1"
+    "nodemon": "1.19.1",
+    "puppeteer": "1.17.0"
   }
 }
