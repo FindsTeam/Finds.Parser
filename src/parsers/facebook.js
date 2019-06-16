@@ -2,9 +2,18 @@ const puppeteer = require("puppeteer");
 const logger = require("../logger");
 const messages = require("../messages");
 
-const EVENTS_URL = `https://www.facebook.com/events/discovery/?suggestion_token={"city":"107677462599905","time":"tomorrow","timezone":"Europe/Minsk"}`;
-const EVENT_LINK_SELECTOR = "div.clearfix > div > div > div > div > div > a";
-const PROGRESSBAR_SELECTOR = [ role="progressbar" ];
+const {
+  extractMultipleLinks,
+  extractSingleText,
+  extractSingleContent,
+  extractSingleImage
+} = require("../utils/puppeteer");
+
+const {
+  browserOption,
+  eventsUrl,
+  selectors
+} = require("./../constants");
 
 const autoScrollToBottom = async page => {
   await page.evaluate(async selector => {
@@ -30,43 +39,83 @@ const autoScrollToBottom = async page => {
             }
         }, interval);
     });
-  }, PROGRESSBAR_SELECTOR);
+  }, progressBar);
 };
 
-const extractLinks = async (page, selector) => {
-  return await page.evaluate(selector => {
-    const elements = Array.from(document.querySelectorAll(selector));
-
-    return elements.map(element => element.href);
-  }, selector);
-};
-
-module.exports.parseEventsLinks = async () => {
-  const browser = await puppeteer.launch({
-    args : [
-      "--no-sandbox",
-      "--disable-setuid-sandbox"
-    ],
-    headless: true,
-    timeout: 60000
-  });
+const parseEventsLinks = async (browser) => {
   const page = await browser.newPage();
 
-  await page.goto(EVENTS_URL);
+  await page.goto(eventsUrl);
   await page.setViewport({
     width: 1200,
     height: 500
   });
-  await page.waitForSelector(EVENT_LINK_SELECTOR);
+  await page.waitForSelector(selectors.eventLink);
   logger.info(messages.facebook.start);
   await autoScrollToBottom(page);
   
-  const links = await extractLinks(page, EVENT_LINK_SELECTOR);
+  const links = await extractMultipleLinks(page, eventLink);
   logger.info(messages.facebook.finish(links.length));
 
-  browser.close();
+  page.close();
   
   return links;
 };
+
+const extractLocation = async page => {
+  return await page.evaluate(() => {
+    const timeContainer = document.querySelector("#event_time_info");
+    const locationContainer = timeContainer.nextSibling;
+    const linkElement = locationContainer.querySelector("a");
+    const addressElement = locationContainer.querySelector("div > div > div > div > div > div");
+    return {
+      place: linkElement.innerText,
+      link: linkElement.href,
+      address: addressElement.innerText
+    };
+  });
+};
+
+const parseEventPage = async (browser, link) => {
+  const page = await browser.newPage()
+  
+  await page.goto(link);
+  await page.waitForSelector(selectors.title);
+
+  const title = await extractSingleText(page, selectors.title);
+  const description = await extractSingleText(page, selectors.description);
+  const time = await extractSingleContent(page, selectors.time);
+  const start = new Date(time.substr(0, time.indexOf(" ")));
+  const end = new Date(time.substr(time.lastIndexOf(" ") + 1, time.length));
+  const location = await extractLocation(page);
+  const image = await extractSingleImage(page, selectors.image);
+  
+  return {
+    title,
+    description,
+    start,
+    end,
+    address: location.address,
+    place: location.place,
+    links: {
+      post: link,
+      place: location.link,
+      image
+    }
+  };
+};
+
+(async () => {
+  const browser = await puppeteer.launch(browserOption);
+  // const links = await parseEventsLinks(browser);
+
+  const link = "https://www.facebook.com/events/341885249858076/";
+  
+  const event = await parseEventPage(browser, link)
+
+  console.log(event);
+
+  browser.close();
+})();
 
 

@@ -13,25 +13,21 @@ const event = new mongoose.Schema({
     type: String,
     required: true
   },
-  date: {
-    type: [ Date ],
+  start: {
+    type: Date,
     required: true
   },
-  time: {
-    type: [ Date ],
+  end: {
+    type: Date,
     required: true
   },
   address: {
     type: String,
     required: true
   },
-  location: {
-    type: Point,
-    required: false,
-    index: {
-      type: "2dsphere",
-      sparse: true
-    }
+  place: {
+    type: String,
+    required: false
   },
   links: {
     type: Links,
