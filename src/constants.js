@@ -12,6 +12,7 @@ module.exports = {
   selectors: {
     eventLink: "div.clearfix > div > div > div > div > div > a",
     progressBar: [ role="progressbar" ],
+    tickets: "[data-testid='event_ticket_link']",
     title: "#seo_h1_tag",
     description: "[data-testid=event-permalink-details] > span",
     time: "td > div > div > div > div > div",

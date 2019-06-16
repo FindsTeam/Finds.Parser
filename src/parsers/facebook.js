@@ -39,7 +39,7 @@ const autoScrollToBottom = async page => {
             }
         }, interval);
     });
-  }, progressBar);
+  }, selectors.progressBar);
 };
 
 const parseEventsLinks = async (browser) => {
@@ -54,7 +54,7 @@ const parseEventsLinks = async (browser) => {
   logger.info(messages.facebook.start);
   await autoScrollToBottom(page);
   
-  const links = await extractMultipleLinks(page, eventLink);
+  const links = await extractMultipleLinks(page, selectors.eventLink);
   logger.info(messages.facebook.finish(links.length));
 
   page.close();
@@ -76,11 +76,23 @@ const extractLocation = async page => {
   });
 };
 
+const hasTickets = async (page, selector) => {
+  return await page.evaluate(selector => {
+    const element = document.querySelector(selector);
+
+    return !!element;
+  }, selector);
+};
+
 const parseEventPage = async (browser, link) => {
   const page = await browser.newPage()
   
   await page.goto(link);
   await page.waitForSelector(selectors.title);
+
+  if (await hasTickets(page, selectors.tickets)) {
+    return null;
+  }
 
   const title = await extractSingleText(page, selectors.title);
   const description = await extractSingleText(page, selectors.description);
@@ -106,14 +118,14 @@ const parseEventPage = async (browser, link) => {
 };
 
 (async () => {
+  const data = [];
   const browser = await puppeteer.launch(browserOption);
-  // const links = await parseEventsLinks(browser);
+  const links = await parseEventsLinks(browser);
 
-  const link = "https://www.facebook.com/events/341885249858076/";
-  
-  const event = await parseEventPage(browser, link)
+  const event = await parseEventPage(browser, links[1]);
+  data.push(event);
 
-  console.log(event);
+  console.log(data);
 
   browser.close();
 })();
