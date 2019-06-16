@@ -1,0 +1,29 @@
+{
+  "name": "finds-parser",
+  "version": "1.0.0",
+  "description": "Web parser/scrapper for free events searching. Telegram bot as a control panel",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FindsTeam/Finds.Parser.git"
+  },
+  "author": "George Puisha (Finds Team)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FindsTeam/Finds.Parser/issues"
+  },
+  "homepage": "https://github.com/FindsTeam/Finds.Parser#readme",
+  "dependencies": {
+    "@sentry/node": "5.4.0",
+    "@timberio/node": "0.33.0",
+    "dotenv": "8.0.0",
+    "moment": "2.24.0",
+    "mongoose": "5.5.13",
+    "nodemon": "1.19.1",
+    "puppeteer": "1.17.0"
+  }
+}
