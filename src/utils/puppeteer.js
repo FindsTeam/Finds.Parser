@@ -8,9 +8,10 @@ module.exports.extractMultipleLinks = async (page, selector) => {
 
 module.exports.extractSingleText = async (page, selector) => {
   return await page.evaluate(selector => {
-    const element = document.querySelector(selector).innerText;
+    const element = document.querySelector(selector);
+    const text = element ? element.innerText : "";
 
-    return element;
+    return text;
   }, selector);
 };
 

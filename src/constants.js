@@ -15,8 +15,36 @@ module.exports = {
     tickets: "[data-testid='event_ticket_link']",
     title: "#seo_h1_tag",
     description: "[data-testid=event-permalink-details] > span",
-    time: "td > div > div > div > div > div",
+    time: "td > div > div > div > div > div[content]",
     image: "#event_header_primary img.img"
+  },
+
+  eventsClassifier: {
+    paid: {
+      tag: "paid",
+      markers: [
+        "билет",
+        "BYN",
+        "платный",
+        "купить",
+        "стоимость",
+        "пригласительный",
+        "руб.",
+        "запись",
+      ]
+    },
+    free: {
+      tag: "free",
+      markers: [
+        "бесплатный вход",
+        "бесплатно",
+        "свободный",
+        "безвозмездный",
+        "халявный",
+        "регистрация",
+        "вход по регистрации",
+      ]
+    }
   }
 
 }

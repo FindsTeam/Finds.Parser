@@ -9,10 +9,6 @@ const Links = new mongoose.Schema({
     type: String,
     required: false
   },
-  registration: {
-    type: String,
-    required: false
-  },
   image: {
     type: String,
     required: false

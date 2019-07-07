@@ -15,6 +15,8 @@ const {
   selectors
 } = require("./../constants");
 
+const analyze = require("../utils/analyze");
+
 const autoScrollToBottom = async page => {
   await page.evaluate(async selector => {
     await new Promise(resolve => {
@@ -88,7 +90,7 @@ const parseEventPage = async (browser, link) => {
   const page = await browser.newPage()
   
   await page.goto(link);
-  await page.waitForSelector(selectors.title);
+  await page.waitForSelector(selectors.time);
 
   if (await hasTickets(page, selectors.tickets)) {
     return null;
@@ -118,14 +120,23 @@ const parseEventPage = async (browser, link) => {
 };
 
 (async () => {
-  const data = [];
+  const events = [];
   const browser = await puppeteer.launch(browserOption);
   const links = await parseEventsLinks(browser);
 
-  const event = await parseEventPage(browser, links[1]);
-  data.push(event);
+  for (const link of links) {
+    const event = await parseEventPage(browser, link);
+    events.push(event);
+  }
 
-  console.log(data);
+  events.forEach(event => {
+    if (event) {
+      if (analyze(event.description)) {
+        console.log(event.links.post);
+      }
+    }
+    
+  });
 
   browser.close();
 })();
