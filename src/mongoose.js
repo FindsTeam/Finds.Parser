@@ -5,5 +5,6 @@ module.exports.connect = () => {
     useCreateIndex: true,
     useNewUrlParser: true
   });
+  
   mongoose.Promise = Promise;
 };

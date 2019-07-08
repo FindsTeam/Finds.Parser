@@ -3,6 +3,14 @@ const logger = require("../logger");
 const messages = require("../messages");
 
 const {
+  isEventFree
+} = require("../utils/analyze");
+
+const {
+  saveEvent
+} = require("../utils/mongoose");
+
+const {
   extractMultipleLinks,
   extractSingleText,
   extractSingleContent,
@@ -10,12 +18,10 @@ const {
 } = require("../utils/puppeteer");
 
 const {
-  browserOption,
+  browserOptions,
   eventsUrl,
   selectors
 } = require("./../constants");
-
-const analyze = require("../utils/analyze");
 
 const autoScrollToBottom = async page => {
   await page.evaluate(async selector => {
@@ -57,7 +63,7 @@ const parseEventsLinks = async (browser) => {
   await autoScrollToBottom(page);
   
   const links = await extractMultipleLinks(page, selectors.eventLink);
-  logger.info(messages.facebook.finish(links.length));
+  logger.info(messages.facebook.links(links.length));
 
   page.close();
   
@@ -66,14 +72,30 @@ const parseEventsLinks = async (browser) => {
 
 const extractLocation = async page => {
   return await page.evaluate(() => {
+    let place;
+    let link;
+    let address;
+
     const timeContainer = document.querySelector("#event_time_info");
     const locationContainer = timeContainer.nextSibling;
-    const linkElement = locationContainer.querySelector("a");
     const addressElement = locationContainer.querySelector("div > div > div > div > div > div");
+
+    if (addressElement && addressElement.innerText) {
+      const linkElement = locationContainer.querySelector("a");
+
+      place = linkElement.innerText;
+      link = linkElement.href;
+      address = addressElement.innerText;       
+    } else {
+      place = "";
+      link = "";
+      address = locationContainer.querySelector("div > div > div > div > div").innerText;
+    }
+
     return {
-      place: linkElement.innerText,
-      link: linkElement.href,
-      address: addressElement.innerText
+      place,
+      link,
+      address
     };
   });
 };
@@ -120,23 +142,17 @@ const parseEventPage = async (browser, link) => {
 };
 
 (async () => {
-  const events = [];
-  const browser = await puppeteer.launch(browserOption);
+  const browser = await puppeteer.launch(browserOptions);
   const links = await parseEventsLinks(browser);
 
   for (const link of links) {
     const event = await parseEventPage(browser, link);
-    events.push(event);
+    if (event && isEventFree(event.description)) {
+      await saveEvent(event);
+    }
   }
 
-  events.forEach(event => {
-    if (event) {
-      if (analyze(event.description)) {
-        console.log(event.links.post);
-      }
-    }
-    
-  });
+  logger.info(messages.facebook.finish);
 
   browser.close();
 })();

@@ -19,9 +19,14 @@ free.markers.forEach(marker => {
 
 classifier.train();
 
-const analyze = description => {
-  data = classifier.getClassifications(description);
-  return data[0].value > data[1].value;
+const isEventFree = description => {
+  const data = classifier.getClassifications(description);
+  const freeValue = data.find(datum => datum.label === free.tag).value;
+  const paidValue = data.find(datum => datum.label === paid.tag).value;
+
+  return freeValue > paidValue;
 };
 
-module.exports = analyze;
+module.exports = {
+  isEventFree
+};

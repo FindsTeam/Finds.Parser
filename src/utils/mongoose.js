@@ -1,8 +1,8 @@
 const logger = require("../logger");
 
-const Events = require('../models/events');
+const Event = require('../models/event');
 
-module.exports.createEvent = data => {
+module.exports.saveEvent = data => {
   const {
     title,
     description,
@@ -12,7 +12,8 @@ module.exports.createEvent = data => {
     place,
     links
   } = data;
-  Events.create({
+
+  return Event.create({
     title,
     description,
     start,
@@ -20,9 +21,9 @@ module.exports.createEvent = data => {
     address,
     place,
     links
-  }, (err, event) => {
-    if (err) {
-      logger.error(`[Mongo]: ${ err }`);
+  }, (error, event) => {
+    if (error) {
+      logger.error(`[Mongo]: (${ error }) for "${ data.title }"`);
     } else {
       logger.info(`[Mongo]: saved event "${ event.title }"`);
     }
