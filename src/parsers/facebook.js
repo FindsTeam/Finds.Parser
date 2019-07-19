@@ -156,6 +156,7 @@ const parseEventPage = async (browser, link) => {
     logger.info(messages.facebook.finish);
   
     browser.close();
+    process.exit();
   } catch (error) {
     logger.error(error);
   }
