@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 module.exports.connect = () => {
   mongoose.connect(process.env.MONGODB_CONNECTION, {
     useCreateIndex: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false
   });
   
   mongoose.Promise = Promise;

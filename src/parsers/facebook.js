@@ -142,19 +142,23 @@ const parseEventPage = async (browser, link) => {
 };
 
 (async () => {
-  const browser = await puppeteer.launch(browserOptions);
-  const links = await parseEventsLinks(browser);
-
-  for (const link of links) {
-    const event = await parseEventPage(browser, link);
-    if (event && isEventFree(event.description)) {
-      await saveEvent(event);
+  try {
+    const browser = await puppeteer.launch(browserOptions);
+    const links = await parseEventsLinks(browser);
+  
+    for (const link of links) {
+      const event = await parseEventPage(browser, link);
+      if (event && isEventFree(event.description)) {
+        await saveEvent(event);
+      }
     }
+  
+    logger.info(messages.facebook.finish);
+  
+    browser.close();
+  } catch (error) {
+    logger.error(error);
   }
-
-  logger.info(messages.facebook.finish);
-
-  browser.close();
 })();
 
 
