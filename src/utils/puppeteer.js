@@ -6,6 +6,29 @@ module.exports.extractMultipleLinks = async (page, selector) => {
   }, selector);
 };
 
+module.exports.extractSingleLink = async (page, selector) => {
+  return await page.evaluate(selector => {
+    const link = document.querySelector(selector);
+    if (link && link.href) {
+      return link.href;
+    }
+
+    return null;
+  }, selector);
+};
+
+module.exports.extractSingleDateTime = async (page, selector) => {
+  return await page.evaluate(selector => {
+    const timeElement = document.querySelector(selector);
+
+    if (timeElement) {
+      return timeElement.dateTime;
+    }
+
+    return null;
+  }, selector)
+}
+
 module.exports.extractSingleText = async (page, selector) => {
   return await page.evaluate(selector => {
     const element = document.querySelector(selector);
@@ -25,8 +48,9 @@ module.exports.extractSingleContent = async (page, selector) => {
 
 module.exports.extractSingleImage = async (page, selector) => {
   return await page.evaluate(selector => {
-    const element = document.querySelector(selector).getAttribute("data-src");
+    const img = document.querySelector(selector);
+    const imageLink = img.getAttribute("data-src") || img.getAttribute("src");
 
-    return element;
+    return imageLink;
   }, selector);
 };
