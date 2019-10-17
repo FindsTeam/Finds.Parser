@@ -19,8 +19,7 @@ const {
 
 const {
   browserOptions,
-  eventsUrl,
-  selectors
+  facebook: { selectors, eventUrl }
 } = require("./../constants");
 
 const autoScrollToBottom = async page => {
@@ -61,12 +60,12 @@ const parseEventsLinks = async (browser) => {
   await page.waitForSelector(selectors.eventLink);
   logger.info(messages.facebook.start);
   await autoScrollToBottom(page);
-  
+
   const links = await extractMultipleLinks(page, selectors.eventLink);
   logger.info(messages.facebook.links(links.length));
 
   page.close();
-  
+
   return links;
 };
 
@@ -85,7 +84,7 @@ const extractLocation = async page => {
 
       place = linkElement.innerText;
       link = linkElement.href;
-      address = addressElement.innerText;       
+      address = addressElement.innerText;
     } else {
       place = "";
       link = "";
