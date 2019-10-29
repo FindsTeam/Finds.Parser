@@ -22,7 +22,7 @@
     "@timberio/node": "0.33.0",
     "dotenv": "8.0.0",
     "moment": "2.24.0",
-    "mongoose": "5.5.13",
+    "mongoose": "5.7.5",
     "natural": "0.6.3",
     "nodemon": "1.19.1",
     "puppeteer": "1.17.0"
