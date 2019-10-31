@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/FindsTeam/Finds.Parser#readme",
   "dependencies": {
-    "@sentry/node": "5.4.0",
+    "@sentry/node": "5.7.1",
     "@timberio/node": "0.33.0",
     "dotenv": "8.0.0",
     "moment": "2.24.0",
@@ -26,5 +26,8 @@
     "natural": "0.6.3",
     "nodemon": "1.19.1",
     "puppeteer": "1.17.0"
+  },
+  "devDependencies": {
+    "eslint": "6.6.0"
   }
 }

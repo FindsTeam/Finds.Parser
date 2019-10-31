@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 module.exports.extractMultipleLinks = async (page, selector) => {
   return await page.evaluate(selector => {
     const elements = Array.from(document.querySelectorAll(selector));
@@ -26,8 +27,8 @@ module.exports.extractSingleDateTime = async (page, selector) => {
     }
 
     return null;
-  }, selector)
-}
+  }, selector);
+};
 
 module.exports.extractSingleText = async (page, selector) => {
   return await page.evaluate(selector => {
