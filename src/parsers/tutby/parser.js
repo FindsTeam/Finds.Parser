@@ -1,9 +1,9 @@
-const { eventsPageUrl } = require('./config');
-const selectors = require('./selectors');
+const { eventsPageUrl } = require("./config");
+const selectors = require("./selectors");
 const {
   extractMultipleLinks, extractSingleText, extractSingleImage,
   extractSingleLink, extractSingleDateTime,
-} = require('../../utils/puppeteer');
+} = require("../../utils/puppeteer");
 
 exports.parseEventsLinks = async (browser) => {
   const date = new Date();
@@ -22,7 +22,6 @@ exports.parseEventsLinks = async (browser) => {
 exports.parseEventPage = async (browser, link) => {
   const page = await browser.newPage();
   await page.goto(link);
-  const event = {};
 
   const title = await extractSingleText(page, selectors.eventPage.title);
   const description = await extractSingleText(page, selectors.eventPage.description);
