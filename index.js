@@ -1,2 +1,5 @@
 require("dotenv").config();
-require("./parse.js");
+require("./src/mongoose").connect();
+
+require("./src/parsers/facebook");
+require("./src/parsers/tutby");
