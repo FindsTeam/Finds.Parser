@@ -12,7 +12,7 @@ module.exports = {
   mongo: {
     save: {
       error: (error, title) => `[Mongo]: "${ title }" event has error (${ error }).`,
-      success: title => `[Mongo]: "${ event.title }" event has been saved.`
+      success: event => `[Mongo]: "${ event.title }" event has been saved.`
     }
   }
 };

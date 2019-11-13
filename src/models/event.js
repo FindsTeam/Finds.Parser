@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Point = require("./point");
 const Links = require("./links");
 
 mongoose.Promise = Promise;

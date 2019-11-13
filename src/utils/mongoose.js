@@ -1,6 +1,6 @@
-const logger = require("../logger");
+const logger = require("./logger");
 
-const Event = require('../models/event');
+const Event = require("../models/event");
 
 module.exports.saveEvent = data => {
   const query = {
