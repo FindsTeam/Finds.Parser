@@ -62,6 +62,10 @@ $ node index.js
 - [MongoDB](https://www.mongodb.com/) - NoSQL Database;
 - [Mongoose](http://mongoosejs.com/) - ODM for MongoDB.
 
+## Hints
+
+- Puppeteer should be run in a headless mode if deployed using Heroku.
+
 ## Developed by
 
 * **Егор Пуйша** - [GitStearis](https://github.com/GitStearis);
