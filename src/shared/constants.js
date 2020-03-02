@@ -5,7 +5,7 @@ module.exports = {
       "--no-sandbox",
       "--disable-setuid-sandbox"
     ],
-    headless: true,
+    headless: false,
     timeout: 60000
   },
   dateFormat: "DD.MM.YY, HH:mm",

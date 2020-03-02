@@ -55,3 +55,19 @@ module.exports.extractSingleImage = async (page, selector) => {
     return imageLink;
   }, selector);
 };
+
+module.exports.enterStringToInput = async (page, selector, string) => {
+  return await page.evaluate(({ selector, string }) => {
+    const input = document.querySelector(selector);
+    
+    input.value = string;
+  }, { selector, string });
+};
+
+module.exports.clickElement = async (page, selector) => {
+  return await page.evaluate((selector) => {
+    const button = document.querySelector(selector);
+    
+    button.click();
+  }, selector);
+};
