@@ -9,6 +9,7 @@ const {
 
 const mobileUrl = "https://mobile.facebook.com";
 const loginUrl = `${ mobileUrl }/login`;
+const notificationsUrl = `${ mobileUrl }/notifications`;
 
 exports.login = async (browser) => {
   const page = await browser.newPage();
@@ -27,7 +28,7 @@ exports.login = async (browser) => {
 exports.logout = async (browser) => {
   const page = await browser.newPage();
 
-  await page.goto(mobileUrl);
+  await page.goto(notificationsUrl);
 
   await page.waitForSelector(selectors.menuButton);
   await clickElement(page, selectors.menuButton);
