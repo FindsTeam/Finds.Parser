@@ -50,19 +50,20 @@ const extractLocation = async page => {
     let address;
 
     const timeContainer = document.querySelector("#event_time_info");
-    const locationContainer = timeContainer.nextSibling;
-    const addressElement = locationContainer.querySelector("div > div > div > div > div > div");
+    const locationContainer = timeContainer ? timeContainer.nextSibling : null;
+    const addressElement = locationContainer && locationContainer.querySelector("div > div > div > div > div > div");
+    const linkElement = locationContainer && locationContainer.querySelector("a");
 
-    if (addressElement && addressElement.innerText) {
-      const linkElement = locationContainer.querySelector("a");
-
+    if (linkElement && addressElement) {
       place = linkElement.innerText;
-      link = beautifyEventLink(linkElement.href);
+      link = linkElement.href;
       address = addressElement.innerText;
     } else {
+      const emergencyAddressElement = locationContainer && locationContainer.querySelector("div > div > div > div > div");
+      
       place = "";
       link = "";
-      address = locationContainer.querySelector("div > div > div > div > div").innerText;
+      address = emergencyAddressElement ? emergencyAddressElement.innerText : "";
     }
 
     return {
@@ -128,7 +129,7 @@ exports.parseEventPage = async (browser, link) => {
     address: location.address,
     place: location.place,
     links: {
-      post: link,
+      post: beautifyEventLink(link),
       place: location.link,
       image
     }
