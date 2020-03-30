@@ -1,1 +1,1 @@
-web: npm run build
+web: node ./build/parser.js
