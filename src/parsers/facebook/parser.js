@@ -100,7 +100,8 @@ exports.parseEventsLinks = async (browser) => {
   return new Promise(resolve => resolve(links));
 };
 
-exports.parseEventPage = async (browser, link) => {
+exports.parseEventPage = async (browser, rawLink) => {
+  const link = beautifyEventLink(rawLink);
   const page = await browser.newPage();
   
   await page.goto(link);
@@ -129,7 +130,7 @@ exports.parseEventPage = async (browser, link) => {
     address: location.address,
     place: location.place,
     links: {
-      post: beautifyEventLink(link),
+      post: link,
       place: location.link,
       image
     }

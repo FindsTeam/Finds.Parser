@@ -20,8 +20,6 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
     await login(browser);
 
     const links = await parseEventsLinks(browser);
-    
-    await logout(browser);
   
     for (const link of links) {
       const event = await parseEventPage(browser, link);
@@ -30,6 +28,8 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
         await saveEvent(event);
       }
     }
+
+    await logout(browser);
   
     logger.info(messages.facebook.finish);
     browser.close();
