@@ -49,9 +49,29 @@ module.exports.extractSingleContent = async (page, selector) => {
 
 module.exports.extractSingleImage = async (page, selector) => {
   return await page.evaluate(selector => {
-    const img = document.querySelector(selector);
-    const imageLink = img.getAttribute("data-src") || img.getAttribute("src");
+    let imageLink = "";
+    const element = document.querySelector(selector);
+
+    if (element) {
+      imageLink = element.getAttribute("data-src") || element.getAttribute("src");
+    }
 
     return imageLink;
+  }, selector);
+};
+
+module.exports.enterStringToInput = async (page, selector, string) => {
+  return await page.evaluate(({ selector, string }) => {
+    const input = document.querySelector(selector);
+    
+    input.value = string;
+  }, { selector, string });
+};
+
+module.exports.clickElement = async (page, selector) => {
+  return await page.evaluate((selector) => {
+    const button = document.querySelector(selector);
+    
+    button.click();
   }, selector);
 };

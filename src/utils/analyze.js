@@ -56,6 +56,10 @@ free.markers.forEach(marker => {
 classifier.train();
 
 const isEventFree = description => {
+  if (!description) {
+    return false;
+  }
+  
   const data = classifier.getClassifications(description);
   const freeValue = data.find(datum => datum.label === free.tag).value;
   const paidValue = data.find(datum => datum.label === paid.tag).value;
