@@ -16,9 +16,9 @@ module.exports = {
     image: ".main_image",
     categories: ".sub_title.tag-place a",
 
-    place: "a.b-event_place span",
-    placeLink: "a.b-event_place",
-    address: "a.b-event_address",
+    place: "a.b-shedule-place",
+    placeLink: "a.b-shedule-place",
+    address: "div.b-shedule-place__address",
     
     description: "#event-description",
     start: ".b-event__tickets time[itemprop=startDate]",
