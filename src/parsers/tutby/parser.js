@@ -4,6 +4,10 @@ const {
   extractMultipleLinks, extractSingleText, extractSingleImage,
   extractSingleLink, extractSingleDateTime,
 } = require("../../utils/puppeteer");
+const {
+  beautifyDescription,
+  beautifyPlace
+} = require("./text");
 
 exports.parseEventsLinks = async (browser) => {
   const date = new Date();
@@ -36,10 +40,10 @@ exports.parseEventPage = async (browser, link) => {
 
   return {
     title,
-    description,
+    description: beautifyDescription(description),
     start,
     end,
-    place,
+    place: beautifyPlace(place),
     address,
     links: {
       post: link,
