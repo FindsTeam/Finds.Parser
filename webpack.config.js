@@ -5,8 +5,9 @@ module.exports = {
   entry: {
     server: "./index.js",
   },
+  mode: "development",
   output: {
-    path: path.join(__dirname, "dist"),
+    path: path.join(__dirname, "build"),
     publicPath: "/",
     filename: "[name].js"
   },
@@ -15,5 +16,5 @@ module.exports = {
     __dirname: false,
     __filename: false,
   },
-  externals: [nodeExternals()]
+  externals: [ nodeExternals() ]
 };

@@ -64,4 +64,4 @@ typings/
 .vscode/
 
 # Built application
-dist/
+build/
