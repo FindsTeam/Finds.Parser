@@ -1,54 +1,56 @@
 const { eventsPageUrl } = require("./config");
 const selectors = require("./selectors");
 const {
-  extractMultipleLinks, extractSingleText, extractSingleImage,
-  extractSingleLink, extractSingleDateTime,
+    extractMultipleLinks, extractSingleText, extractSingleImage,
+    extractSingleLink, extractSingleDateTime,
 } = require("../../utils/puppeteer");
 const {
-  beautifyDescription,
-  beautifyPlace
+    beautifyDescription,
+    beautifyPlace
 } = require("./text");
 
 exports.parseEventsLinks = async (browser) => {
-  const date = new Date();
-  const url = eventsPageUrl(date);
-  const page = await browser.newPage();
-  await page.goto(url);
+    const date = new Date();
+    const url = eventsPageUrl(date);
+    const page = await browser.newPage();
+    
+    await page.goto(url);
 
-  const linksSelector = `${selectors.eventsTable.table} ${selectors.eventsTable.eventLink}`;
-  const links = await extractMultipleLinks(page, linksSelector);
+    const linksSelector = `${selectors.eventsTable.table} ${selectors.eventsTable.eventLink}`;
+    const links = await extractMultipleLinks(page, linksSelector);
 
-  page.close();
+    page.close();
 
-  return links;
+    return links;
 };
 
 exports.parseEventPage = async (browser, link) => {
-  const page = await browser.newPage();
-  await page.goto(link);
+    const page = await browser.newPage();
 
-  const title = await extractSingleText(page, selectors.eventPage.title);
-  const description = await extractSingleText(page, selectors.eventPage.description);
-  const start = await extractSingleDateTime(page, selectors.eventPage.start);
-  const end = await extractSingleDateTime(page, selectors.eventPage.end);
-  const image = await extractSingleImage(page, selectors.eventPage.image);
-  const place = await extractSingleText(page, selectors.eventPage.place);
-  const placeLink = await extractSingleLink(page, selectors.eventPage.placeLink);
-  const address = await extractSingleText(page, selectors.eventPage.address);
+    await page.goto(link);
 
-  page.close();
+    const title = await extractSingleText(page, selectors.eventPage.title);
+    const description = await extractSingleText(page, selectors.eventPage.description);
+    const start = await extractSingleDateTime(page, selectors.eventPage.start);
+    const end = await extractSingleDateTime(page, selectors.eventPage.end);
+    const image = await extractSingleImage(page, selectors.eventPage.image);
+    const place = await extractSingleText(page, selectors.eventPage.place);
+    const placeLink = await extractSingleLink(page, selectors.eventPage.placeLink);
+    const address = await extractSingleText(page, selectors.eventPage.address);
 
-  return {
-    title,
-    description: beautifyDescription(description),
-    start,
-    end,
-    place: beautifyPlace(place),
-    address,
-    links: {
-      post: link,
-      place: placeLink,
-      image,
-    }
-  };
+    page.close();
+
+    return {
+        title,
+        description: beautifyDescription(description),
+        start,
+        end,
+        place: beautifyPlace(place),
+        address,
+        links: {
+            post: link,
+            place: placeLink,
+            image,
+        }
+    };
 };
