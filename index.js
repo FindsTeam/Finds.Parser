@@ -3,8 +3,8 @@ require("./src/mongoose").connect();
 
 const logger = require("./src/utils/logger");
 
-const facebook = require("./src/parsers/facebook")();
-const tutby = require("./src/parsers/tutby")();
+const facebook = require("./src/parsers/facebook");
+const tutby = require("./src/parsers/tutby");
 
 (async () => {
     try {
@@ -13,9 +13,11 @@ const tutby = require("./src/parsers/tutby")();
             tutby
         ];
 
-        await Promise.all(parsers);
+        for (const parser of parsers) {
+            await parser();
+        }
     } catch (error) {
-        logger.error(error);
+        await logger.error(error);
     } finally {
         process.exit();
     }

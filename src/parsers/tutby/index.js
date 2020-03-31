@@ -8,11 +8,11 @@ const { parseEventsLinks, parseEventPage } = require("./parser");
 module.exports = async () => {
     const browser = await puppeteer.launch(browserOptions);
 
-    logger.info(messages.tutby.start);
+    await logger.info(messages.tutby.start);
 
     const links = await parseEventsLinks(browser);
     
-    logger.info(messages.tutby.links(links.length));
+    await logger.info(messages.tutby.links(links.length));
 
     for (const link of links) {
         const event = await parseEventPage(browser, link);

@@ -89,12 +89,12 @@ exports.parseEventsLinks = async (browser) => {
 
     await page.goto(eventUrl);
     await page.waitForSelector(selectors.eventLink);
-    logger.info(messages.facebook.start);
+    await logger.info(messages.facebook.start);
     await autoScrollToBottom(page);
 
     const links = await extractMultipleLinks(page, selectors.eventLink);
-    logger.info(messages.facebook.links(links.length));
 
+    await logger.info(messages.facebook.links(links.length));
     await page.close();
 
     return new Promise(resolve => resolve(links));
