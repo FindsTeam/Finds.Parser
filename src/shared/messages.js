@@ -1,18 +1,21 @@
+const facebook = "[facebook.com]";
+const tutby = "[tut.by]";
+
 module.exports = {
     facebook: {
-        start: "Started facebook.com/events parsing...",
-        links: amount => `Amount of found event links: ${ amount }`,
-        finish: "Finished facebook.com/events parsing."
+        start: `${ facebook } Parsing in progress...`,
+        links: amount => `${ facebook } Amount of found event links: ${ amount }`,
+        finish: `${ facebook } Finished parsing successfully.`
     },
     tutby: {
-        start: "Started afisha.tut.by/free-events parsing...",
-        links: amount => `Amount of found event links: ${ amount }`,
-        finish: "Finished afisha.tut.by/free-events parsing."
+        start: `${ tutby } Parsing in progress...`,
+        links: amount => `${ tutby } Amount of found event links: ${ amount }`,
+        finish: `${ tutby } Finished parsing successfully.`
     },
     mongo: {
         save: {
-            error: (error, title) => `[Mongo]: "${ title }" event has error (${ error }).`,
-            success: event => `[Mongo]: "${ event.title }" event has been saved.`
+            error: (error, title) => `[mongo] "${ title }" event has error (${ error }).`,
+            success: event => `[mongo] "${ event.title }" event has been saved.`
         }
     }
 };
