@@ -8,30 +8,25 @@ const { login, logout } = require("./authentication");
 const { parseEventsLinks, parseEventPage } = require("./parser");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 
-(async() => {
-    try {
-        puppeteer.use(StealthPlugin());
+puppeteer.use(StealthPlugin());
 
-        const browser = await puppeteer.launch(browserOptions);
+module.exports = async () => {
+    const browser = await puppeteer.launch(browserOptions);
 
-        await login(browser);
+    await login(browser);
 
-        const links = await parseEventsLinks(browser);
+    const links = await parseEventsLinks(browser);
 
-        for (const link of links) {
-            const event = await parseEventPage(browser, link);
+    for (const link of links) {
+        const event = await parseEventPage(browser, link);
 
-            if (event && isEventFree(event.description)) {
-                await saveEvent(event);
-            }
+        if (event && isEventFree(event.description)) {
+            await saveEvent(event);
         }
-
-        await logout(browser);
-
-        logger.info(messages.facebook.finish);
-        browser.close();
-        process.exit();
-    } catch (error) {
-        logger.error(error);
     }
-})();
+
+    await logout(browser);
+
+    await logger.info(messages.facebook.finish);
+    return browser.close();
+};
