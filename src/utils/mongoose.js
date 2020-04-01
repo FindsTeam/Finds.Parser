@@ -13,11 +13,11 @@ module.exports.saveEvent = data => {
             return;
         }
     
-        return Event.create(data, (error, event) => {
+        return Event.create(data, async (error, event) => {
             if (error) {
-                logger.error(`[Mongo]: (${ error }) for "${ data.title }"`);
+                await logger.error(`[Mongo]: (${ error }) for "${ data.title }"`);
             } else {
-                logger.info(`[Mongo]: saved event "${ event.title }"`);
+                await logger.info(`[Mongo]: saved event "${ event.title }"`);
             }
         });
     }).exec();
