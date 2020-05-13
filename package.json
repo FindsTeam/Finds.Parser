@@ -4,8 +4,8 @@
   "description": "Web parser/scrapper for free events searching. Telegram bot as a control panel",
   "main": "index.js",
   "scripts": {
-    "start": "node ./build/parser.js",
-    "dev": "nodemon index.js",
+    "start": "node ./build/parser.js tutby facebook",
+    "dev": "nodemon index.js tutby facebook",
     "lint": "eslint --color ./",
     "build": "webpack"
   },

@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-// const logger = require("../../utils/logger");
 const selectors = require("./selectors");
 const { enterStringToInput, clickElement, extractSingleLink } = require("../../utils/puppeteer");
 
