@@ -4,7 +4,6 @@ const messages = require("../../shared/messages");
 const { isEventFree } = require("../../utils/analyze");
 const { saveEvent } = require("../../utils/mongoose");
 const { browserOptions } = require("../../shared/constants");
-const { login, logout } = require("./authentication");
 const { parseEventsLinks, parseEventPage } = require("./parser");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 
@@ -12,8 +11,6 @@ puppeteer.use(StealthPlugin());
 
 module.exports = async () => {
     const browser = await puppeteer.launch(browserOptions);
-
-    await login(browser);
 
     const links = await parseEventsLinks(browser);
 
@@ -24,8 +21,6 @@ module.exports = async () => {
             await saveEvent(event);
         }
     }
-
-    await logout(browser);
 
     await logger.info(messages.facebook.finish);
     return browser.close();
