@@ -2,11 +2,13 @@ const logger = require("./logger");
 
 const Event = require("../models/event");
 
+const findEventByQuery = query => Event.find(query, (error, result) => result);
+
 module.exports.saveEvent = data => {
     const query = {
         title: data.title
     };
-    let options = { upsert: true, new: true, setDefaultsOnInsert: true };
+    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
     return Event.findOneAndUpdate(query, data, options, (error, result) => {
         if (error || result) {
@@ -22,3 +24,12 @@ module.exports.saveEvent = data => {
         });
     }).exec();
 };
+
+module.exports.updateEventById = update => {
+    const id = update._id;
+    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+    return Event.findByIdAndUpdate(id, update, options).exec();
+};
+
+module.exports.getAllEvents = () => findEventByQuery({});

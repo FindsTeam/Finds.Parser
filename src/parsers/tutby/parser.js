@@ -9,6 +9,11 @@ const {
     beautifyPlace
 } = require("./text");
 
+const {
+    classifyType,
+    classifyEntry
+} = require("../../utils/classifiers/analyze");
+
 exports.parseEventsLinks = async (browser) => {
     const date = new Date();
     const url = eventsPageUrl(date);
@@ -31,6 +36,9 @@ exports.parseEventPage = async (browser, link) => {
 
     const title = await extractSingleText(page, selectors.eventPage.title);
     const description = await extractSingleText(page, selectors.eventPage.description);
+    const text = `${ title } ${ description }`;
+    const type = classifyType(text);
+    const entry = classifyEntry(text);
     const start = await extractSingleDateTime(page, selectors.eventPage.start);
     const end = await extractSingleDateTime(page, selectors.eventPage.end);
     const image = await extractSingleImage(page, selectors.eventPage.image);
@@ -51,6 +59,8 @@ exports.parseEventPage = async (browser, link) => {
             post: link,
             place: placeLink,
             image,
-        }
+        },
+        type,
+        entry
     };
 };
