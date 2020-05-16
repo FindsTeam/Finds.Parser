@@ -31,10 +31,19 @@ const event = new mongoose.Schema({
     links: {
         type: Links,
         required: true
+    },
+    type: {
+        type: String,
+        required: true,
+    },
+    entry: {
+        type: String,
+        required: true,
     }
 }, {
     collection: "events",
-    versionKey: false
+    versionKey: false,
+    strict: false
 });
 
 module.exports = mongoose.model("events", event);
