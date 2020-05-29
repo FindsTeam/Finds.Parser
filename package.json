@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node ./build/parser.js tutby facebook",
     "dev": "nodemon index.js tutby facebook",
+    "facebook": "nodemon index.js facebook",
+    "tutby": "nodemon index.js tutby",
     "lint": "eslint --color ./",
     "build": "webpack"
   },
