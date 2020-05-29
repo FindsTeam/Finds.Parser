@@ -57,17 +57,16 @@ const extractLocation = async page => {
         const timeContainer = document.querySelector("#event_time_info");
         const locationContainer = timeContainer ? timeContainer.nextSibling : null;
         const addressElement = locationContainer && locationContainer.querySelector("div > div > div > div > div > div");
-        const linkElement = locationContainer && locationContainer.querySelector("a");
+        const emergencyAddressElement = locationContainer && locationContainer.querySelector("div > div > div > div > div");
+        const linkElement = locationContainer && locationContainer.querySelector("a, span");
+        const placeElement = locationContainer && linkElement.querySelector("td:nth-of-type(2) a");
 
-        if (linkElement && addressElement) {
-            place = linkElement.innerText;
-            link = linkElement.href;
+        place = placeElement ? placeElement.innerText : linkElement ? linkElement.innerText : "";
+        link = linkElement && linkElement.href ? linkElement.href : "";
+
+        if (addressElement) {
             address = addressElement.innerText;
         } else {
-            const emergencyAddressElement = locationContainer && locationContainer.querySelector("div > div > div > div > div");
-      
-            place = "";
-            link = "";
             address = emergencyAddressElement ? emergencyAddressElement.innerText : "";
         }
 
