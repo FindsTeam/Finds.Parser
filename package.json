@@ -39,7 +39,7 @@
     "puppeteer-extra-plugin-stealth": "^2.4.9",
     "terser-webpack-plugin": "^2.3.5",
     "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11",
+    "webpack-cli": "^3.3.12",
     "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {
